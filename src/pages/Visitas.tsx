@@ -77,7 +77,12 @@ const [error, setError] = useState("");
               {
                 minhasVisitas.map((f: any) =>
                   f.pessoas.map((p: any) => {
-                    const dias = calcularDias(p.visitas[p.visitas.length - 1].dataVisita);
+                    const ultimaVisita =
+                      p.visitas?.length > 0
+                        ? p.visitas[p.visitas.length - 1]?.dataVisita
+                        : null;
+
+                    const dias = calcularDias(ultimaVisita);
                     const isVermelho = dias > 30;
 
                     return (
