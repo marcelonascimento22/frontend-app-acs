@@ -235,8 +235,14 @@ const MapaZonas = () => {
         }
 
         try{
-          const res = await api.post("/zonas", {
+          console.log("Criando zona com dados:", {
             ...data,
+            geometria: geometriaNovaZona,
+          });
+
+          const res = await api.post("/zonas", {
+            nome: data.nome,
+            descricao: data.descricao,
             geometria: geometriaNovaZona,
           });
 
