@@ -214,6 +214,7 @@ const MapaZonas = () => {
 
   // 🔹 Salvar geometria
   const salvarAlteracoesGeometria = async () => {
+
     for (const zona of zonasEditadas) {
       await api.put(`/zonas/${zona.id}/geometria`, {
         geometria: zona.geometria,
@@ -233,18 +234,21 @@ const MapaZonas = () => {
           throw new Error("Geometria não definida para nova zona");
         }
 
-        const res = await api.post("/zonas", data);
+        try{
+          const res = await api.post("/zonas", {
+            ...data,
+            geometria: geometriaNovaZona,
+          });
 
-        await api.put(`/zonas/${res.data.id}/geometria`, {
-          geometria: geometriaNovaZona,
-        });
-
-        // criar vínculo
-        await api.post("/usuarios-zonas", {
-          usuarioId: data.acsId
-          ,
-          zonaId: res.data.id,
-        });
+          // criar vínculo
+          await api.post("/usuarios-zonas", {
+            usuarioId: data.acsId
+            ,
+            zonaId: res.data.id,
+          });
+        } catch (error: any) {
+          console.error(error.response?.data || error);
+        }
 
       } else {
         const editada = zonasEditadas.find(
