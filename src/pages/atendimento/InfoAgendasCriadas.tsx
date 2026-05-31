@@ -1,6 +1,7 @@
 import { useAgenda } from "../../hooks/useAgenda";
 import { cancelarAgenda } from "../../services/cancelarAgenda";
 import formatDate from "../../utils/formatDate";
+import { Loading } from "../../utils/Loading";
 
 const InfoAgendasCriadas = () => {
     const { data: agendas, isLoading } = useAgenda();
@@ -28,7 +29,7 @@ const InfoAgendasCriadas = () => {
     //console.log('Agendas : ', agendas)
 
     if(isLoading) {
-        return <p>Carregando agendas...</p>;
+        return <Loading />;
     }
   return (
     <>

@@ -132,8 +132,9 @@ useEffect(() => {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-gray-900 flex justify-center items-center z-50">
-        <div className="bg-white p-6 rounded w-full max-w-md shadow-xl">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 overflow-y-auto">
+      <div className="min-h-screen flex items-start justify-center p-4">
+        <div className="bg-white w-full max-w-md rounded-lg shadow-xl  p-6 flex flex-col">
           <h2 className="text-xl font-bold mb-4">Editar Pessoa</h2>
 
           <div className="space-y-3">
@@ -266,6 +267,7 @@ useEffect(() => {
           </div>
         </div>
       </div>
+    </div>
 
       {openFamilia && (
         <ModalEditFamilia

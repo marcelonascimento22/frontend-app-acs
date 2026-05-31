@@ -8,6 +8,7 @@ import InfoGestacao from './pessoaDetalhe/infoGestacao';
 import calculateAge from '../utils/calculateAge';
 import InfoConsultas from './pessoaDetalhe/infoConsultas';
 import InfoAgendamentos from './pessoaDetalhe/infoAgendamentos';
+import { Loading } from '../utils/Loading';
 
 
 
@@ -20,7 +21,7 @@ export default function PessoaDetalhe() {
   
 
   if (loadingPessoa) {
-    return <p className="text-center p-4">🔄 Carregando...</p>;
+    return <Loading />;
   }
 
   if (!pessoa) {

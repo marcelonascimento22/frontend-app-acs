@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUsuario } from "../hooks/useUsuario";
 import api from "../services/api";
 import { useEffect, useState } from "react";
+import { Loading } from "../utils/Loading";
 
 const EditarUsuarios = () => {
     const { id } = useParams<{ id: string }>();
@@ -147,7 +148,7 @@ const EditarUsuarios = () => {
         }
     };
 
-    if (isLoading) return <div>Carregando...</div>;
+    if (isLoading) return <Loading />;
 
 
     console.log("Profissional", profissional)

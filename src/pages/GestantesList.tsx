@@ -6,6 +6,7 @@ import formatDate from '../utils/formatDate';
 import formatSUS from '../utils/formatSUS';
 import calculateAge from '../utils/calculateAge';
 import formatFone from '../utils/formatFone';
+import { Loading } from '../utils/Loading';
 
 const GestantesList = () => {
   const { data: gestantes, isLoading, error } = useQuery({
@@ -13,7 +14,7 @@ const GestantesList = () => {
     queryFn: () => api.get<Gestantes[]>('/gestacao').then(res => res.data),
   });
 
-  if (isLoading) return <div className="text-white">Carregando...</div>;
+  if (isLoading) return <Loading />;
 
   if (error) return <div className="text-red-500">Erro ao carregar gestantes</div>;
 

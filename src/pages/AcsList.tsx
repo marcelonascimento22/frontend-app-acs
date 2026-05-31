@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from '../services/api';
 import formatFone from '../utils/formatFone';
 import type { Usuario } from '../types/usuarios';
+import { Loading } from '../utils/Loading';
 
 const AcsList = () => {
   const { data: acs, isLoading, error } = useQuery({
@@ -9,7 +10,7 @@ const AcsList = () => {
     queryFn: () => api.get<Usuario[]>('/usuarios').then(res => res.data),
   });
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading) return <Loading />;
 
   if (error) return <div>Erro ao carregar acs</div>;
 

@@ -7,6 +7,7 @@ import type { Pessoa } from "../../types/pessoa";
 import { useState } from "react";
 import ModalEditPessoa from "../../components/ModalEditPessoa";
 import { useQueryClient } from "@tanstack/react-query";
+import { Loading } from "../../utils/Loading";
 
 
 
@@ -27,7 +28,7 @@ const InfoPessoa = () => {
   };
 
     if (loadingPessoa) {
-     return <div className="text-center">🔄 Carregando dados...</div>;
+     return <Loading />;
     }
 
         ////console.log('ID: ', id)

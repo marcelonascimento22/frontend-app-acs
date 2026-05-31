@@ -28,6 +28,7 @@ api.interceptors.response.use(
   }
 );
 
+/*
 async function testarApi() {
   try {
     const response = await fetch(
@@ -46,5 +47,6 @@ async function testarApi() {
 }
 
 testarApi();
+*/
 
 export default api;

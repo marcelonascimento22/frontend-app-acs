@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useVacina } from "../../hooks/useVacina";
 import formatDate from "../../utils/formatDate";
+import { Loading } from "../../utils/Loading";
 
 export const InfoVacina = () => {
 
@@ -13,7 +14,7 @@ export const InfoVacina = () => {
 
     ////////console.log('Vacinas: ', vacinas);
 
-    if (isLoading) return <p>Carregando vacinas...</p>;
+    if (isLoading) return <Loading />;
 
     
     

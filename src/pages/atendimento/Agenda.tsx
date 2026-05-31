@@ -4,6 +4,7 @@ import { useProfissionais } from "../../hooks/useProfissional";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import { ptBR } from "date-fns/locale/pt-BR";
+import { Loading } from "../../utils/Loading";
 
 // 🔹 Função segura contra timezone
 const toLocalDate = (dateStr?: string) => {
@@ -175,7 +176,7 @@ const Agenda = () => {
             <option value="">Selecione um profissional</option>
 
             {isLoading ? (
-              <option>Carregando...</option>
+              <option><Loading /></option>
             ) : (
               profissionais?.map((p: any) => (
                 <option key={p.id} value={p.id}>

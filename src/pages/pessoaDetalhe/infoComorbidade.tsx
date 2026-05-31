@@ -12,6 +12,7 @@ import type { Comorbidade } from "../../types/comorbidade";
 import type { PessoaComorbidade } from "../../types/pessoaComorbidade";
 import formatDate from "../../utils/formatDate";
 import ModalEditarComorbidade from "../../components/ModalEditarComorbidade";
+import { Loading } from "../../utils/Loading";
 
 
 
@@ -77,7 +78,7 @@ const InfoComrbidade = () => {
         },
     });
 
-    if(loadingComorbidades) return <p>Carregando comorbidades...</p>;
+    if(loadingComorbidades) return <Loading />;
 
 
     return(

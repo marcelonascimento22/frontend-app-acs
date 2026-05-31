@@ -2,6 +2,7 @@ import formatDate from '../../utils/formatDate';
 import { api } from '../../services/api';
 import type { Vacina } from '../../types/vacina';
 import { useQuery } from '@tanstack/react-query';
+import { Loading } from '../../utils/Loading';
 
 const VacinasAplicadas = () => {
 
@@ -12,7 +13,7 @@ const VacinasAplicadas = () => {
   });
 
 
-  if (isLoading) return <div className="text-white">Carregando...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div className="text-red-500">Erro ao carregar vacinas</div>;
   //console.log(vacinas);
   return (

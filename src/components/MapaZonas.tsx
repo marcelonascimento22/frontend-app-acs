@@ -9,6 +9,7 @@ import "@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css";
 import api from "../services/api";
 import DialogEditarZona from "./DialogEditarZona";
 import { ZonaLayer } from "./ZonaLayer";
+import { Loading } from "../utils/Loading";
 
 
 
@@ -298,7 +299,7 @@ const MapaZonas = () => {
     }
   };
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading) return <Loading />;
   if (isError) return <div>Erro ao carregar</div>;
 
   return (

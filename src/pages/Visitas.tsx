@@ -2,15 +2,16 @@ import { useEffect, useState } from "react";
 import formatDate from "../utils/formatDate";
 import FormularioVisita from "../components/FormularioVisita";
 import getMinhasVisitas from "../services/getMinhasVisitas";
+import { Loading } from "../utils/Loading";
 
 
 const Visitas = () => {
-    const [openModal, setOpenModal] = useState(false);
-    const [pessoaSelecionada, setPessoaSelecionada] = useState<any>(null);
-    //const [pessoas, setPessoas] = useState<PessoaVisita[]>([]);
-    const [minhasVisitas, setMinhasVisitas] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-const [error, setError] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [pessoaSelecionada, setPessoaSelecionada] = useState<any>(null);
+  //const [pessoas, setPessoas] = useState<PessoaVisita[]>([]);
+  const [minhasVisitas, setMinhasVisitas] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
     useEffect(() => {
       const fetchData = async () => {
@@ -54,8 +55,8 @@ const [error, setError] = useState("");
   <div className="p-4">
     <h1 className="text-2xl font-bold mb-4">Visitas</h1>
 
-    {isLoading && <p>Carregando...</p>}
-    {error && <p className="text-red-500">{error}</p>}
+
+
 
     {/* MOBILE */}
     <div className="block md:hidden space-y-4">
@@ -156,77 +157,93 @@ const [error, setError] = useState("");
         </thead>
 
         <tbody>
-          {minhasVisitas.length === 0 ? (
+          {isLoading ? (
             <tr>
               <td
                 colSpan={4}
                 className="border p-4 text-center"
               >
-                Nenhuma visita encontrada
+                <Loading />
               </td>
             </tr>
           ) : (
             <>
-              {minhasVisitas.map((f: any) =>
-                f.pessoas.map((p: any) => {
-                  const visitasOrdenadas = [...(p.visitas || [])].sort(
-                    (a: any, b: any) =>
-                      new Date(a.dataVisita).getTime() -
-                      new Date(b.dataVisita).getTime()
-                  );
+            {minhasVisitas.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={4}
+                  className="border p-4 text-center"
+                >
+                  Nenhuma visita encontrada
+                </td>
+              </tr>
+            ) : (
 
-                  const ultimaVisita =
-                    visitasOrdenadas.length > 0
-                      ? visitasOrdenadas[
-                          visitasOrdenadas.length - 1
-                        ].dataVisita
-                      : null;
+              <>
+                {minhasVisitas.map((f: any) =>
+                  f.pessoas.map((p: any) => {
+                    const visitasOrdenadas = [...(p.visitas || [])].sort(
+                      (a: any, b: any) =>
+                        new Date(a.dataVisita).getTime() -
+                        new Date(b.dataVisita).getTime()
+                    );
 
-                  const dias = calcularDias(ultimaVisita);
-                  const isVermelho = dias > 30;
+                    const ultimaVisita =
+                      visitasOrdenadas.length > 0
+                        ? visitasOrdenadas[
+                            visitasOrdenadas.length - 1
+                          ].dataVisita
+                        : null;
 
-                  return (
-                    <tr
-                      key={p.id}
-                      className={
-                        isVermelho ? "bg-red-100" : ""
-                      }
-                    >
-                      <td className="border p-2">{p.nome}</td>
+                    const dias = calcularDias(ultimaVisita);
+                    const isVermelho = dias > 30;
 
-                      <td className="border p-2">
-                        {ultimaVisita
-                          ? formatDate(ultimaVisita)
-                          : "Nunca visitado"}
-                      </td>
-
-                      <td
-                        className={`border p-2 font-bold ${
-                          isVermelho
-                            ? "text-red-600"
-                            : ""
-                        }`}
+                    return (
+                      <tr
+                        key={p.id}
+                        className={
+                          isVermelho ? "bg-red-100" : ""
+                        }
                       >
-                        {isFinite(dias) ? dias : "∞"}
-                      </td>
+                        <td className="border p-2">{p.nome}</td>
 
-                      <td className="border p-2">
-                        <button
-                          className="bg-blue-500 text-white px-3 py-1 rounded"
-                          onClick={() => {
-                            setPessoaSelecionada(p);
-                            setOpenModal(true);
-                          }}
+                        <td className="border p-2">
+                          {ultimaVisita
+                            ? formatDate(ultimaVisita)
+                            : "Nunca visitado"}
+                        </td>
+
+                        <td
+                          className={`border p-2 font-bold ${
+                            isVermelho
+                              ? "text-red-600"
+                              : ""
+                          }`}
                         >
-                          Registrar Visita
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </>
+                          {isFinite(dias) ? dias : "∞"}
+                        </td>
+
+                        <td className="border p-2">
+                          <button
+                            className="bg-blue-500 text-white px-3 py-1 rounded"
+                            onClick={() => {
+                              setPessoaSelecionada(p);
+                              setOpenModal(true);
+                            }}
+                          >
+                            Registrar Visita
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </>
+            )}
+
+          </>
           )}
+          
         </tbody>
       </table>
     </div>

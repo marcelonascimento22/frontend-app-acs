@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../services/api";
+import { Loading } from "../utils/Loading";
 
 const Perfil = () => {
   const [usuario, setUsuario] = useState<any>(null);
@@ -81,7 +82,7 @@ const Perfil = () => {
   };
 
   if (loading || !usuario) {
-    return <div className="p-4">Carregando...</div>;
+    return <Loading />
   }
 
   return (

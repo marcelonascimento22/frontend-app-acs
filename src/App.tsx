@@ -22,16 +22,11 @@ import NovoUsuario from "./pages/NovoUsuario";
 import Usuarios from "./pages/Usuarios";
 import Perfil from "./pages/Perfil";
 import EditarUsuarios from "./pages/EditarUsuarios";
-import { databaseService } from "./services/database";
-import { useEffect } from "react";
+import Comorbidades from "./pages/Comorbidades";
 
 
 function App() {
   const { token } = useAuth();
-
-  useEffect(() => {
-    databaseService.init();
-  }, []);
 
   const ProtectedLayout = () => (
     <PrivateRoute>
@@ -87,6 +82,7 @@ function App() {
         <Route path="/pessoa/:id" element={<PessoaDetalhe />} />
         <Route path="/pessoas/nova" element={<Cadastrar />} />
         <Route path="/vacinas" element={<VacinaList />} />
+        <Route path="/comorbidades" element={<Comorbidades />} />
         <Route path="/gestantes" element={<GestantesList />} />
         <Route path="/acs" element={<AcsList />} />
         <Route path="/usuarios/novo" element={<NovoUsuario />} />

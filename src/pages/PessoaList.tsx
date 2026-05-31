@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
@@ -9,9 +9,7 @@ import formatCPF from '../utils/formatCPF';
 import formatFone from '../utils/formatFone';
 import formatSUS from '../utils/formatSUS';
 import ModalEditPessoa from '../components/ModalEditPessoa';
-import { familiaRepository } from '../repositories/familiaRepository';
-import { v4 as uuid } from "uuid";
-import { databaseService } from '../services/database';
+import { Loading } from '../utils/Loading';
 
 
 
@@ -22,23 +20,6 @@ const PessoaList = () => {
     queryFn: () => api.get<Pessoa[]>('/pessoa').then(res => res.data),
   });
 
-  useEffect(() => {
-  const init = async () => {
-    await databaseService.init();
-
-    await familiaRepository.create({
-      id: uuid(),
-      nome: "Teste",
-      endereco: "Rua X",
-    });
-
-    const familias = await familiaRepository.getAll();
-    console.log("Familia SQLite: ", familias);
-  };
-
-  init();
-}, []);
-
   const [selectedPessoa, setSelectedPessoa] = useState<Pessoa | null>(null);
   const navigate = useNavigate();
   
@@ -48,7 +29,7 @@ const PessoaList = () => {
     );
   };
 
-  if (isLoading) return <div>Carregando...</div>;
+  if (isLoading) return <Loading />;
   if (error) return <div>Erro ao carregar pessoas</div>;
 
   return (

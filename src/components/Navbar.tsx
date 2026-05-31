@@ -101,6 +101,10 @@ const Navbar = () => {
                 <Link to="/vacinas" className="hover:text-blue-400 transition">
                   Vacina
                 </Link>
+                
+                <Link to="/comorbidades" className="hover:text-blue-400 transition">
+                  Comorbidades
+                </Link>
 
                 <Link to="/zonas" className="hover:text-blue-400 transition">
                   Regiões
@@ -272,6 +276,10 @@ const Navbar = () => {
 
                     <Link to="/vacinas" onClick={() => setMenuOpen(false)}>
                       Vacina
+                    </Link>
+
+                    <Link to="/comorbidades" onClick={() => setMenuOpen(false)}>
+                      Comorbidades
                     </Link>
 
                     <Link to="/zonas" onClick={() => setMenuOpen(false)}>

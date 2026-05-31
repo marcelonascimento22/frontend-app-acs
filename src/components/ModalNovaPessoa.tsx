@@ -6,6 +6,7 @@ import api from '../services/api';
 import type { CreatePessoaDto } from '../types/pessoa';
 import type { Familia } from '../types/familia';
 import ModalEditFamilia from './ModalEditFamilia';
+import { Loading } from '../utils/Loading';
 
 const ModalNovaPessoa = () => {
   // 🔹 Controle do modal de família
@@ -211,9 +212,7 @@ const ModalNovaPessoa = () => {
 
           {/* LOADING */}
           {isLoading && (
-            <div className="absolute bg-white border w-full mt-1 p-2 z-20 shadow-lg">
-              Carregando endereços...
-            </div>
+            <Loading />
           )}
 
           {/* RESULTADOS */}
