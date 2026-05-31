@@ -86,7 +86,7 @@ const Usuarios = () => {
       {/* ================= MOBILE (CARDS) ================= */}
       <div className="flex flex-col gap-3 md:hidden">
         {loading ? (
-          <p className="text-center">Carregando...</p>
+          <Loading />
         ) : usuariosFiltrados.length === 0 ? (
           <p className="text-center">Nenhum usuário encontrado</p>
         ) : (

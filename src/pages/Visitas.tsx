@@ -11,7 +11,6 @@ const Visitas = () => {
   //const [pessoas, setPessoas] = useState<PessoaVisita[]>([]);
   const [minhasVisitas, setMinhasVisitas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
 
     useEffect(() => {
       const fetchData = async () => {
@@ -20,7 +19,7 @@ const Visitas = () => {
           const data = await getMinhasVisitas();
           setMinhasVisitas(data);
         } catch (err: any) {
-          setError(err.message || "Erro ao buscar visitas");
+          console.error(err.message || "Erro ao buscar visitas");
         } finally {
           setIsLoading(false);
         }
