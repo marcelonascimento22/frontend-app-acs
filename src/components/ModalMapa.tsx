@@ -172,7 +172,7 @@ export default function ModalMapa({
 
         {position && (
           <p className="text-sm text-green-600 mb-2">
-            📍 {position[0].toFixed(5)}, {position[1].toFixed(5)}
+            📍 {Number(position[0]).toFixed(5)}, {Number(position[1]).toFixed(5)}
           </p>
         )}
 
@@ -227,7 +227,7 @@ export default function ModalMapa({
               disabled={!position}
               onClick={() => {
                 if (position) {
-                  onSelect(position[0], position[1]);
+                  onSelect(Number(position[0]), Number(position[1]));
                   onClose();
                 }
               }}
