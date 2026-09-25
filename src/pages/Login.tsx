@@ -1,19 +1,20 @@
 import { useState } from "react";
 import { loginService } from "../services/auth";
+import { api } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 
 export default function Login() {
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState("");
 
-
   const navigate = useNavigate();
   const { login } = useAuth();
-
 
   const handleLogin = async () => {
     if (!email || !senha) {
@@ -28,34 +29,60 @@ export default function Login() {
       const res = await loginService(email, senha);
 
       if (res && res.data) {
-        
         const token = res.data.access_token;
         const usuario = res.data.usuario;
-        ////console.log("Resposta do login:", res);
-        ////console.log("ANTES DO STORAGE");
 
         localStorage.setItem("token", token);
-        // 1. Salva o usuário (se quiser manter no storage)
         localStorage.setItem("usuario", JSON.stringify(usuario));
 
-        // 2. CHAMA O LOGIN DO CONTEXTO (Isso vai disparar o setToken e atualizar o App)
         login(token);
-
-        ////console.log("ANTES DO NAVIGATE");
         navigate("/");
       }
     } catch (error: unknown) {
       let msg = "Erro ao fazer login";
 
       if (axios.isAxiosError(error)) {
-        console.error("Erro completo:", error.response);
-
         msg =
           error.response?.data?.message ||
           `Erro ${error.response?.status}` ||
           "Erro na API";
-      } else {
-        console.error("Erro inesperado:", error);
+      }
+
+      setErro(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegister = async () => {
+    if (!nome || !email || !senha) {
+      setErro("Preencha nome, email e senha");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setErro("");
+
+      await api.post("/auth/register", {
+        nome,
+        email,
+        senha,
+        perfil: "ACS",
+        ativo: true
+      });
+
+      alert("Cadastro realizado com sucesso! Faça login para continuar.");
+      setIsRegistering(false);
+      setSenha("");
+    } catch (error: unknown) {
+      let msg = "Erro ao fazer cadastro";
+
+      if (axios.isAxiosError(error)) {
+        msg =
+          error.response?.data?.message ||
+          `Erro ${error.response?.status}` ||
+          "Erro na API";
       }
 
       setErro(msg);
@@ -68,19 +95,38 @@ export default function Login() {
     <div className="fixed inset-0 bg-gray-900 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-xl w-full max-w-md shadow-xl">
         <h2 className="text-xl text-center font-bold mb-4">
-          Login
+          {isRegistering ? "Cadastre-se" : "Login"}
         </h2>
 
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            handleLogin();
+            if (isRegistering) {
+              handleRegister();
+            } else {
+              handleLogin();
+            }
           }}
           className="space-y-4"
         >
           {erro && (
             <div className="bg-red-100 text-red-700 p-2 rounded text-sm text-center">
               {erro}
+            </div>
+          )}
+
+          {isRegistering && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Nome
+              </label>
+              <input
+                type="text"
+                placeholder="João da Silva"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="w-full border p-2 rounded mt-1"
+              />
             </div>
           )}
 
@@ -115,9 +161,23 @@ export default function Login() {
             disabled={loading}
             className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition"
           >
-            {loading ? "Entrando..." : "Entrar"}
+            {loading ? "Aguarde..." : isRegistering ? "Cadastrar" : "Entrar"}
           </button>
         </form>
+
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => {
+              setIsRegistering(!isRegistering);
+              setErro("");
+            }}
+            className="text-sm text-blue-500 hover:underline focus:outline-none"
+          >
+            {isRegistering
+              ? "Já possui uma conta? Faça login"
+              : "Não possui uma conta? Cadastre-se"}
+          </button>
+        </div>
       </div>
     </div>
   );
