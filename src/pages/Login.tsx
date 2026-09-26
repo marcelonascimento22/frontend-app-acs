@@ -10,6 +10,7 @@ export default function Login() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [telefone, setTelefone] = useState("");
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState("");
 
@@ -55,8 +56,8 @@ export default function Login() {
   };
 
   const handleRegister = async () => {
-    if (!nome || !email || !senha) {
-      setErro("Preencha nome, email e senha");
+    if (!nome || !email || !senha || !telefone) {
+      setErro("Preencha todos os campos (nome, telefone, email e senha)");
       return;
     }
 
@@ -68,6 +69,7 @@ export default function Login() {
         nome,
         email,
         senha,
+        telefone,
         perfil: "ACS",
         ativo: true
       });
@@ -116,18 +118,32 @@ export default function Login() {
           )}
 
           {isRegistering && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Nome
-              </label>
-              <input
-                type="text"
-                placeholder="João da Silva"
-                value={nome}
-                onChange={(e) => setNome(e.target.value)}
-                className="w-full border p-2 rounded mt-1"
-              />
-            </div>
+            <>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Nome
+                </label>
+                <input
+                  type="text"
+                  placeholder="João da Silva"
+                  value={nome}
+                  onChange={(e) => setNome(e.target.value)}
+                  className="w-full border p-2 rounded mt-1"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Telefone
+                </label>
+                <input
+                  type="text"
+                  placeholder="11999999999"
+                  value={telefone}
+                  onChange={(e) => setTelefone(e.target.value)}
+                  className="w-full border p-2 rounded mt-1"
+                />
+              </div>
+            </>
           )}
 
           <div>
